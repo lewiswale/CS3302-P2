@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="practical2" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.orig/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.ane"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+
+  <property name="jdk.home.1.8" value="${java.home}/.."/>
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.forms_rt.classpath">
+    <pathelement location="${basedir}/lib/forms_rt.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module Practical2 -->
+  
+  <dirname property="module.practical2.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.practical2" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.practical2" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.practical2" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.practical2" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="practical2.output.dir" value="${module.practical2.basedir}/out/production/Practical2"/>
+  <property name="practical2.testoutput.dir" value="${module.practical2.basedir}/out/test/Practical2"/>
+  
+  <path id="practical2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="practical2.module.production.classpath">
+    <path refid="${module.jdk.classpath.practical2}"/>
+    <path refid="library.forms_rt.classpath"/>
+  </path>
+  
+  <path id="practical2.runtime.production.module.classpath">
+    <pathelement location="${practical2.output.dir}"/>
+    <path refid="library.forms_rt.classpath"/>
+  </path>
+  
+  <path id="practical2.module.classpath">
+    <path refid="${module.jdk.classpath.practical2}"/>
+    <pathelement location="${practical2.output.dir}"/>
+    <path refid="library.forms_rt.classpath"/>
+  </path>
+  
+  <path id="practical2.runtime.module.classpath">
+    <pathelement location="${practical2.testoutput.dir}"/>
+    <pathelement location="${practical2.output.dir}"/>
+    <path refid="library.forms_rt.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.practical2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.practical2">
+    <patternset refid="excluded.from.module.practical2"/>
+  </patternset>
+  
+  <path id="practical2.module.sourcepath">
+    <dirset dir="${module.practical2.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.practical2" depends="compile.module.practical2.production,compile.module.practical2.tests" description="Compile module Practical2"/>
+  
+  <target name="compile.module.practical2.production" depends="register.custom.compilers" description="Compile module Practical2; production classes">
+    <mkdir dir="${practical2.output.dir}"/>
+    <javac2 destdir="${practical2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.practical2}/javac">
+      <compilerarg line="${compiler.args.practical2}"/>
+      <bootclasspath refid="practical2.module.bootclasspath"/>
+      <classpath refid="practical2.module.production.classpath"/>
+      <src refid="practical2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.practical2"/>
+    </javac2>
+    
+    <copy todir="${practical2.output.dir}">
+      <fileset dir="${module.practical2.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.practical2.tests" depends="register.custom.compilers,compile.module.practical2.production" description="compile module Practical2; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.practical2" description="cleanup module">
+    <delete dir="${practical2.output.dir}"/>
+    <delete dir="${practical2.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.practical2" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.practical2" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.practical2:jar" value="${basedir}/out/artifacts/Practical2_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.Practical2.jar" value="${artifacts.temp.dir}/Practical2.jar"/>
+  </target>
+  
+  <target name="artifact.practical2:jar" depends="init.artifacts, compile.module.practical2" description="Build &#39;Practical2:jar&#39; artifact">
+    <property name="artifact.temp.output.practical2:jar" value="${artifacts.temp.dir}/Practical2_jar"/>
+    <mkdir dir="${artifact.temp.output.practical2:jar}"/>
+    <jar destfile="${temp.jar.path.Practical2.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <manifest>
+        <attribute name="Main-Class" value="GUI/MainForm"/>
+      </manifest>
+      <zipfileset dir="${practical2.output.dir}"/>
+      <zipfileset src="${basedir}/lib/forms_rt.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.Practical2.jar}" tofile="${artifact.temp.output.practical2:jar}/Practical2.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.practical2:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.practical2:jar}"/>
+    <copy todir="${artifact.output.practical2:jar}">
+      <fileset dir="${artifact.temp.output.practical2:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
